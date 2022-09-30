@@ -128,4 +128,65 @@ describe("User resource", () => {
       expect(response.statusCode).toBe(404);
     });
   });
+
+  describe("Patch user endpoint", () => {
+    test("Should patch user name successfully", async () => {
+      const createdUser = await UserModel.create({
+        name: "Any name",
+        email: "any@mail.com",
+      });
+
+      const response = await request(server)
+        .patch(`/user/${createdUser.id}`)
+        .send({
+          name: "New name",
+        })
+        .set("Content-Type", "application/json");
+
+      const updatedUser = await UserModel.findOne({ id: createdUser.id });
+
+      expect(response.statusCode).toBe(200);
+      expect(response.body).toMatchObject({
+        id: createdUser.id,
+        name: updatedUser.name,
+        email: createdUser.email,
+      });
+      expect(updatedUser).toMatchObject({
+        id: createdUser.id,
+        name: updatedUser.name,
+        email: createdUser.email,
+      });
+    });
+    test("Should patch email name successfully", async () => {
+      const createdUser = await UserModel.create({
+        name: "Any name",
+        email: "any@mail.com",
+      });
+
+      const response = await request(server)
+        .patch(`/user/${createdUser.id}`)
+        .send({
+          email: "new@mail",
+        })
+        .set("Content-Type", "application/json");
+
+      const updatedUser = await UserModel.findOne({ id: createdUser.id });
+
+      expect(response.statusCode).toBe(200);
+      expect(response.body).toMatchObject({
+        id: createdUser.id,
+        name: createdUser.name,
+        email: updatedUser.email,
+      });
+      expect(updatedUser).toMatchObject({
+        id: createdUser.id,
+        name: createdUser.name,
+        email: updatedUser.email,
+      });
+    });
+    test("Should return 404", async () => {
+      const response = await request(server).get("/user/not-existent");
+      expect(response.statusCode).toBe(404);
+    });
+  });
 });

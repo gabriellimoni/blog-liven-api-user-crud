@@ -53,4 +53,15 @@ router.delete("/user/:id", async (req, res) => {
   return res.status(204).send();
 });
 
+router.patch("/user/:id", async (req, res) => {
+  const user = await UserModel.findOne({ id: req.params.id });
+  if (!user)
+    return res.status(404).send({
+      message: "User not found",
+    });
+  await UserModel.updateOne({ id: req.params.id }, req.body);
+  const updatedUser = await UserModel.findOne({ id: req.params.id });
+  return res.status(200).send(updatedUser);
+});
+
 export default router;
