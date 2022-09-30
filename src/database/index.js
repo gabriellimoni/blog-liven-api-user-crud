@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { mongoUri } from "../env";
+import { mongoUri } from "../env.js";
 
 export const connect = () => {
   return mongoose.connect(mongoUri);

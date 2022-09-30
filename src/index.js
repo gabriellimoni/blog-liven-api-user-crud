@@ -1,5 +1,3 @@
-require("dotenv").config();
-
 import { connect } from "./database/index.js";
 import { port } from "./env.js";
 import app from "./server.js";
