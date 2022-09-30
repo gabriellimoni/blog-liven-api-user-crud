@@ -108,4 +108,24 @@ describe("User resource", () => {
       expect(response.statusCode).toBe(404);
     });
   });
+
+  describe("Delete user endpoint", () => {
+    test("Should delete user successfully", async () => {
+      const createdUser = await UserModel.create({
+        name: "Any name",
+        email: "any@mail.com",
+      });
+
+      const response = await request(server).delete(`/user/${createdUser.id}`);
+
+      const deletedUser = await UserModel.findOne({ id: createdUser.id });
+
+      expect(response.statusCode).toBe(204);
+      expect(deletedUser).toBeNull();
+    });
+    test("Should return 404", async () => {
+      const response = await request(server).get("/user/not-existent");
+      expect(response.statusCode).toBe(404);
+    });
+  });
 });

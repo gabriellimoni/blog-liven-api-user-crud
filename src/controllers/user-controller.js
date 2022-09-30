@@ -43,4 +43,14 @@ router.get("/user/:id", async (req, res) => {
   return res.status(200).json(user);
 });
 
+router.delete("/user/:id", async (req, res) => {
+  const user = await UserModel.findOne({ id: req.params.id });
+  if (!user)
+    return res.status(404).send({
+      message: "User not found",
+    });
+  await UserModel.deleteOne({ id: req.params.id });
+  return res.status(204).send();
+});
+
 export default router;
