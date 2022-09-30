@@ -1,6 +1,11 @@
+require("dotenv").config();
+
+import { connect } from "./database/index.js";
 import { port } from "./env.js";
 import app from "./server.js";
 
-app.listen(port, function () {
-  console.log(`Running on port ${port}`);
+connect().then(() => {
+  app.listen(port, function () {
+    console.log(`Running on port ${port}`);
+  });
 });
