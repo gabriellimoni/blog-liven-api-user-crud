@@ -1,0 +1,29 @@
+{
+  "name": "blog-liven-api-user-crud",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "jest --silent --detectOpenHandles --runInBand"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gabriellimoni/blog-liven-api-user-crud.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gabriellimoni/blog-liven-api-user-crud/issues"
+  },
+  "homepage": "https://github.com/gabriellimoni/blog-liven-api-user-crud#readme",
+  "dependencies": {
+    "express": "^4.18.1",
+    "mongoose": "^6.6.3"
+  },
+  "devDependencies": {
+    "jest": "^29.1.2"
+  }
+}
