@@ -86,4 +86,26 @@ describe("User resource", () => {
       expect(response.body).toHaveLength(0);
     });
   });
+
+  describe("Get user endpoint", () => {
+    test("Should get user successfully", async () => {
+      const createdUser = await UserModel.create({
+        name: "Any name",
+        email: "any@mail.com",
+      });
+
+      const response = await request(server).get(`/user/${createdUser.id}`);
+
+      expect(response.statusCode).toBe(200);
+      expect(response.body).toMatchObject({
+        id: createdUser.id,
+        name: createdUser.name,
+        email: createdUser.email,
+      });
+    });
+    test("Should return 404", async () => {
+      const response = await request(server).get("/user/not-existent");
+      expect(response.statusCode).toBe(404);
+    });
+  });
 });

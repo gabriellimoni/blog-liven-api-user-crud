@@ -34,4 +34,13 @@ router.get("/user", async (_, res) => {
   return res.status(200).json(users);
 });
 
+router.get("/user/:id", async (req, res) => {
+  const user = await UserModel.findOne({ id: req.params.id });
+  if (!user)
+    return res.status(404).send({
+      message: "User not found",
+    });
+  return res.status(200).json(user);
+});
+
 export default router;
