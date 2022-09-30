@@ -7,15 +7,14 @@ describe("User resource", () => {
   beforeAll(async () => {
     await connect();
   });
+  beforeEach(async () => {
+    await UserModel.deleteMany({});
+  });
   afterAll(async () => {
     await disconnect();
   });
 
   describe("Create user endpoint", () => {
-    beforeEach(async () => {
-      await UserModel.deleteMany({});
-    });
-
     test("Should create user successfully", async () => {
       const response = await request(server)
         .post("/user")
@@ -60,6 +59,31 @@ describe("User resource", () => {
         .set("Content-Type", "application/json");
 
       expect(response.statusCode).toBe(400);
+    });
+  });
+
+  describe("List user endpoint", () => {
+    test("Should list users successfully", async () => {
+      await UserModel.create({
+        name: "Any name",
+        email: "any@mail.com",
+      });
+
+      const response = await request(server).get("/user");
+
+      expect(response.statusCode).toBe(200);
+      expect(response.body).toHaveLength(1);
+      expect(response.body[0]).toMatchObject({
+        id: expect.any(String),
+        name: "Any name",
+        email: "any@mail.com",
+      });
+    });
+    test("Should return empty", async () => {
+      const response = await request(server).get("/user");
+
+      expect(response.statusCode).toBe(200);
+      expect(response.body).toHaveLength(0);
     });
   });
 });

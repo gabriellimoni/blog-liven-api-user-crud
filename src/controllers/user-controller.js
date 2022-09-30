@@ -29,4 +29,9 @@ router.post("/user", async (req, res) => {
   return res.status(200).json(createdUser);
 });
 
+router.get("/user", async (_, res) => {
+  const users = await UserModel.find();
+  return res.status(200).json(users);
+});
+
 export default router;
